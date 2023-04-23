@@ -28,7 +28,7 @@ public class Desafío implements Serializable {
         this.usuarioDesafiante = usuarioDesafiante;
     }
     public void mostrarDesafío(){
-        System.out.println("Usuario vendedor: " + usuarioDesafiante.getNick());
+        System.out.println("Usuario desafiante: " + usuarioDesafiante.getNick());
         System.out.println("Precio: " + precio);
         System.out.println("Modificadores: ");
         if (!listaEquipo.isEmpty()){

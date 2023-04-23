@@ -23,7 +23,7 @@ public class Sistema  implements Serializable {
     private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
     private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
     private Personaje p;
-    private ArrayList<Ranking> rankings = new ArrayList<>();
+    //private ArrayList<Ranking> rankings = new ArrayList<>();
 
     public Sistema() throws IOException {
         if (listaDesafíos == null){
@@ -117,20 +117,20 @@ public class Sistema  implements Serializable {
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - desafío.getPrecio());
                 int puntosUsuarioDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getPuntos();
                 ((Jugador)desafío.getUsuarioDesafiante()).getPersonaje().setPuntos(puntosUsuarioDesafiante + 3);
-                rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                rankings.add(((Jugador) usuario));
+               // rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
+                //rankings.add(((Jugador) usuario));
             }else if ((desafío.getModAtaques() < ((Jugador) usuario).getPersonaje().getAtaque()) && (desafío.getModDefensa() < ((Jugador) usuario).getPersonaje().getDefensa())){
                 System.out.println("El usuario desafiado " + usuario.getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante - desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro + desafío.getPrecio());
                 int puntosUsuarioDesafiado = ((Jugador) usuario).getPersonaje().getPuntos();
                 ((Jugador)usuario).getPersonaje().setPuntos(puntosUsuarioDesafiado + 3);
-                rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                rankings.add(((Jugador) usuario));
+                //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
+                //rankings.add(((Jugador) usuario));
             }else
                 System.out.println("Se ha producido un empate");
-                rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                rankings.add(((Jugador) usuario));    
+                //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
+                //rankings.add(((Jugador) usuario));    
     }
     private boolean comprarDesafío(Desafío desafío) {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
@@ -153,7 +153,11 @@ public class Sistema  implements Serializable {
             return false;
         }
     }
-
+    //public void consultarRanking(Scanner sc){
+      //  for (Ranking ranking: rankings){
+        //    ranking.mostrarRanking();
+        //}
+    //}
     public void menuInicio(Scanner sc) throws IOException {
         int opcionmenú;
         System.out.println("   Bienvenido al Menu de Inicio   ");
@@ -322,7 +326,6 @@ public class Sistema  implements Serializable {
         System.out.println("2. Gestion avanzada de los desafios");
         System.out.println("3. Darse de baja");
         System.out.println("4. Mostrar Notificaciones");
-        //System.out.println("5.Consultar ranking");
         System.out.println("5. Salir");
         System.out.println("");
         if (!((Jugador) usuario).getListaNotificaciones().isEmpty()){
@@ -407,7 +410,8 @@ public class Sistema  implements Serializable {
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("1. Desafiar ");
         System.out.println("2. Aceptar o rechazar desafios");
-        System.out.println("3. Volver al menu principal");
+        System.out.println("3. Consultar Ranking");
+        System.out.println("4. Volver al menu principal");
         System.out.println(" ");
         do {
             try {
@@ -420,6 +424,8 @@ public class Sistema  implements Serializable {
                     case 2:
                         consultarDesafío(sc);
                         break;
+                    /*case 3:
+                        consultarRanking(sc);*/
                     case 3:
                         break;
                 }   
@@ -1094,11 +1100,11 @@ public class Sistema  implements Serializable {
                         System.out.println("El desafio ha sido validada");
                     } else{
                         Desafío desafío = listaDesafíosNoValidados.remove(opcion2);
-                        int oroDevuelto = desafío.getPrecio();
+                        /*int oroDevuelto = desafío.getPrecio();
                         int oroPersonaje2 = (((Jugador)usuario).getPersonaje().getCantidadOro()) ;
-                        int oroRestante2 = oroPersonaje2 - oroDevuelto;
-                        oroRestante2 = (((Jugador)usuario).getPersonaje().getCantidadOro());
-                        System.out.println("El oro apostado fue devuelto");
+                        ((Jugador)usuario).getPersonaje().setCantidadOro();*/
+                        System.out.println("Desafio no validado");
+                        System.out.println("El oro apostado " + desafío.getPrecio() +" fue devuelto");
                     }
                 }
             } while (opcion != 2 && !listaDesafíosNoValidados.isEmpty());
