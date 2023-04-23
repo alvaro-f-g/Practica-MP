@@ -179,8 +179,10 @@ public class Sistema  implements Serializable {
                 break;
             case 3:
                 System.out.println("Saliendo...");
+                //3
                 break;
         }
+       
     }
 
     private void registrarCuenta(Scanner sc) throws IOException {

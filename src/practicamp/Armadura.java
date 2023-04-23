@@ -1,0 +1,55 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package practicamp;
+
+/**
+ *
+ * @author alfer
+ */
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Armadura extends Equipo implements Serializable {
+    public Armadura(int modAtaque, int modDefensa, String nombre, String categoria, ArrayList<String> listaMateriales){
+        super(modAtaque, modDefensa, nombre, categoria,listaMateriales);
+    }
+
+    @Override
+    public void mostrarEquipo() {
+        System.out.println("Tipo: Armadura");
+        System.out.println("Nombre: " + getNombre());
+        System.out.println("Modificador de ataque: " + getModAtaque());
+        System.out.println("Modificador de defensa: " + getModDefensa());
+        System.out.println("Categoria: " + getCategoria());
+        System.out.println("Materiales:");
+        for(String material: getListaMateriales()){
+            System.out.println("-" + material);
+        }
+    }
+    @Override
+    public void mostrarEquipoModificadores(){
+        System.out.println("Modificador de ataque: " + getModAtaque());
+        System.out.println("Modificador de defensa: " + getModDefensa());
+    }
+    @Override
+    public int getModAtaque() {
+        return super.getModAtaque();
+    }
+
+    @Override
+    public void setModAtaque(int modAtaque) {
+        super.setModAtaque(modAtaque);
+    }
+
+    @Override
+    public int getModDefensa() {
+        return super.getModDefensa();
+    }
+
+    @Override
+    public void setModDefensa(int modDefensa) {
+        super.setModDefensa(modDefensa);
+    }
+}
