@@ -115,6 +115,8 @@ public class Sistema  implements Serializable {
                 System.out.println("El usuario desafiante" + desafío.getUsuarioDesafiante().getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante + desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - desafío.getPrecio());
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setOroGanado(desafío.getPrecio());
+                ((Jugador) usuario).getPersonaje().setOroPerdido(desafío.getPrecio());
                 int puntosUsuarioDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getPuntos();
                 ((Jugador)desafío.getUsuarioDesafiante()).getPersonaje().setPuntos(puntosUsuarioDesafiante + 3);
                // rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
@@ -123,6 +125,8 @@ public class Sistema  implements Serializable {
                 System.out.println("El usuario desafiado " + usuario.getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante - desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro + desafío.getPrecio());
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setOroPerdido(desafío.getPrecio());
+                ((Jugador) usuario).getPersonaje().setOroGanado(desafío.getPrecio());
                 int puntosUsuarioDesafiado = ((Jugador) usuario).getPersonaje().getPuntos();
                 ((Jugador)usuario).getPersonaje().setPuntos(puntosUsuarioDesafiado + 3);
                 //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
@@ -158,6 +162,29 @@ public class Sistema  implements Serializable {
         //    ranking.mostrarRanking();
         //}
     //}
+    public void consultarOro(Scanner sc){
+        System.out.println("Bienvenido al menu de consultar oro");
+        System.out.println("1. Consultar oro ganado");
+        System.out.println("2. Consultar oro perdido");
+        System.out.println("3. Volver");
+        System.out.println("");
+        int opcion;
+        do{
+            opcion = sc.nextInt();
+            System.out.println("");
+        }while(opcion >=2 && opcion<=0);
+        switch(opcion){
+            case 1:
+                System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha ganado: " + ((Jugador)usuario).getPersonaje().getOroGanado() + "cantidad de oro en los desafios");
+                break;
+            case 2:
+                System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha perdido: " + ((Jugador)usuario).getPersonaje().getOroPerdido() + "cantidad de oro en los desafios");
+                break;
+            case 3:
+                System.out.println("Volviendo");
+                break;
+        }
+    }
     public void menuInicio(Scanner sc) throws IOException {
         int opcionmenú;
         System.out.println("   Bienvenido al Menu de Inicio   ");
@@ -324,19 +351,20 @@ public class Sistema  implements Serializable {
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Gestion avanzada de personaje");
         System.out.println("2. Gestion avanzada de los desafios");
-        System.out.println("3. Darse de baja");
-        System.out.println("4. Mostrar Notificaciones");
-        System.out.println("5. Salir");
+        System.out.println("3. Consultar oro");
+        System.out.println("4. Darse de baja");
+        System.out.println("5. Mostrar Notificaciones");
+        System.out.println("6. Salir");
         System.out.println("");
         if (!((Jugador) usuario).getListaNotificaciones().isEmpty()){
             System.out.println("*¡Tienes nuevas notificaciones!*");
         }
         do{
             opcionMenúJ = sc.nextInt();
-            if(opcionMenúJ > 5 || opcionMenúJ < 1){
+            if(opcionMenúJ > 6 || opcionMenúJ < 1){
                 System.out.println("Introduce una opcion correcta");
             }
-        }while(opcionMenúJ > 5 || opcionMenúJ < 1);
+        }while(opcionMenúJ > 6 || opcionMenúJ < 1);
 
         switch (opcionMenúJ) {
             case 1:
@@ -346,15 +374,18 @@ public class Sistema  implements Serializable {
                 menuDesafio(sc);
                 break;
             case 3:
-                darseDeBaja(sc);
+                consultarOro(sc);
                 break;
             case 4:
+                darseDeBaja(sc);
+                break;
+            case 5:
                 mostrarNotificaciones();
                 break;
             /*case 5 :
                 mostrarRankingOrdenado();
                 break;*/
-            case 5:
+            case 6:
                 salir(sc);
                 break;
                         
@@ -410,8 +441,8 @@ public class Sistema  implements Serializable {
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("1. Desafiar ");
         System.out.println("2. Aceptar o rechazar desafios");
-        System.out.println("3. Consultar Ranking");
-        System.out.println("4. Volver al menu principal");
+        //System.out.println("3. Consultar Ranking");
+        System.out.println("3. Volver al menu principal");
         System.out.println(" ");
         do {
             try {
@@ -509,7 +540,9 @@ public class Sistema  implements Serializable {
         ArrayList<Arma> armasActivas = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
         int puntos = 0;
-        p = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro, puntos) {
+        int oroGanado = 0;
+        int oroPerdido = 0;
+        p = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro, puntos, oroGanado, oroPerdido) {
             @Override
             public void añadirEsbirro(Esbirro esbirro) {
             }
@@ -584,15 +617,15 @@ public class Sistema  implements Serializable {
         switch (opcionRol) {
             case 1:
                 CrearCazador cazador = new CrearCazador();
-                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos() ,sc);
+                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos() , p.getOroGanado(), p.getOroPerdido() , sc);
                 break;
             case 2:
                 CrearVampiro vampiro = new CrearVampiro();
-                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), sc);
+                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), p.getOroGanado(), p.getOroPerdido(), sc);
                 break;
             case 3:
                 CrearLicantropo licantropo = new CrearLicantropo();
-                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), sc);
+                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), p.getOroGanado(), p.getOroPerdido(), sc);
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");

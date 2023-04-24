@@ -20,8 +20,10 @@ public abstract class Personaje implements Serializable {
     private ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
     private int cantidadOro;
     private int puntos;
+    private int oroGanado;
+    private int oroPerdido;
 
-    public Personaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntos) {
+    public Personaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntos, int oroGanado, int oroPerdido) {
         this.nombre = nombre;
         this.listaArmas = listaArmas;
         this.armasActivas = armasActivas;
@@ -29,6 +31,8 @@ public abstract class Personaje implements Serializable {
         this.listaEsbirros = listaEsbirros;
         this.cantidadOro = cantidadOro;
         this.puntos = puntos;
+        this.oroGanado = oroGanado;
+        this.oroPerdido = oroPerdido;
     }
 
     public String getNombre() {
@@ -119,5 +123,21 @@ public abstract class Personaje implements Serializable {
     }
     public void setPuntos(int puntos) {
         this.puntos = puntos;
+    }
+
+    public int getOroGanado() {
+        return oroGanado;
+    }
+
+    public void setOroGanado(int oroGanado) {
+        this.oroGanado = oroGanado;
+    }
+
+    public int getOroPerdido() {
+        return oroPerdido;
+    }
+
+    public void setOroPerdido(int oroPerdido) {
+        this.oroPerdido = oroPerdido;
     }
 }

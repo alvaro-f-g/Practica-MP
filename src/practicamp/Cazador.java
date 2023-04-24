@@ -15,8 +15,8 @@ import java.util.HashSet;
 public class Cazador extends Personaje implements Serializable {
     private int puntosVoluntad;
 
-    public Cazador(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntos, int puntosVoluntad) {
-        super(nombre, listaArmas, armasActivas, listaArmaduras, listaEsbirros, cantidadOro, puntos);
+    public Cazador(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntos, int oroGanado, int oroPerdido,  int puntosVoluntad) {
+        super(nombre, listaArmas, armasActivas, listaArmaduras, listaEsbirros, cantidadOro, puntos, oroGanado, oroPerdido);
         this.puntosVoluntad = puntosVoluntad;
     }
 
