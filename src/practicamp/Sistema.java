@@ -115,18 +115,18 @@ public class Sistema  implements Serializable {
                 System.out.println("El usuario desafiante" + desafío.getUsuarioDesafiante().getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante + desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - desafío.getPrecio());
-                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setOroGanado(desafío.getPrecio());
-                ((Jugador) usuario).getPersonaje().setOroPerdido(desafío.getPrecio());
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setOroGanado(((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getOroGanado() + desafío.getPrecio());
+                ((Jugador) usuario).getPersonaje().setOroPerdido(((Jugador) usuario).getPersonaje().getOroPerdido() + desafío.getPrecio());
                 int puntosUsuarioDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getPuntos();
                 ((Jugador)desafío.getUsuarioDesafiante()).getPersonaje().setPuntos(puntosUsuarioDesafiante + 3);
                // rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                //rankings.add(((Jugador) usuario));
+                //rankings.add(((Jugador) usuario)); 
             }else if ((desafío.getModAtaques() < ((Jugador) usuario).getPersonaje().getAtaque()) && (desafío.getModDefensa() < ((Jugador) usuario).getPersonaje().getDefensa())){
                 System.out.println("El usuario desafiado " + usuario.getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante - desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro + desafío.getPrecio());
-                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setOroPerdido(desafío.getPrecio());
-                ((Jugador) usuario).getPersonaje().setOroGanado(desafío.getPrecio());
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setOroPerdido(((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getOroPerdido() + desafío.getPrecio());
+                ((Jugador) usuario).getPersonaje().setOroGanado(((Jugador)usuario).getPersonaje().getOroGanado() + desafío.getPrecio());
                 int puntosUsuarioDesafiado = ((Jugador) usuario).getPersonaje().getPuntos();
                 ((Jugador)usuario).getPersonaje().setPuntos(puntosUsuarioDesafiado + 3);
                 //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
@@ -157,11 +157,9 @@ public class Sistema  implements Serializable {
             return false;
         }
     }
-    //public void consultarRanking(Scanner sc){
-      //  for (Ranking ranking: rankings){
-        //    ranking.mostrarRanking();
-        //}
-    //}
+    public void consultarRanking(Scanner sc){
+        System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " tiene " + ((Jugador)usuario).getPersonaje().getPuntos() + " puntos" );
+    }
     public void consultarOro(Scanner sc){
         System.out.println("Bienvenido al menu de consultar oro");
         System.out.println("1. Consultar oro ganado");
@@ -175,7 +173,7 @@ public class Sistema  implements Serializable {
         }while(opcion >=2 && opcion<=0);
         switch(opcion){
             case 1:
-                System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha ganado: " + ((Jugador)usuario).getPersonaje().getOroGanado() + "cantidad de oro en los desafios");
+                System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha ganado: " + ((Jugador)usuario).getPersonaje().getOroGanado() + " cantidad de oro en los desafios");
                 break;
             case 2:
                 System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha perdido: " + ((Jugador)usuario).getPersonaje().getOroPerdido() + "cantidad de oro en los desafios");
@@ -441,8 +439,8 @@ public class Sistema  implements Serializable {
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("1. Desafiar ");
         System.out.println("2. Aceptar o rechazar desafios");
-        //System.out.println("3. Consultar Ranking");
-        System.out.println("3. Volver al menu principal");
+        System.out.println("3. Consultar Ranking");
+        System.out.println("4. Volver al menu principal");
         System.out.println(" ");
         do {
             try {
@@ -455,16 +453,16 @@ public class Sistema  implements Serializable {
                     case 2:
                         consultarDesafío(sc);
                         break;
-                    /*case 3:
-                        consultarRanking(sc);*/
                     case 3:
+                        consultarRanking(sc);
+                    case 4:
                         break;
                 }   
             } catch (InputMismatchException e) {
                 System.out.println("Debes insertar un número");
                 sc.next();
             }
-        }while (opcionMenúD > 3 || opcionMenúD < 1) ;
+        }while (opcionMenúD > 4 || opcionMenúD < 1) ;
         
     }
     private void darseDeBaja(Scanner sc) throws IOException {
@@ -859,20 +857,20 @@ public class Sistema  implements Serializable {
         ArrayList<String> materiales5 = new ArrayList<>(Arrays.asList("Plata", "Acero"));
         ArrayList<String> materiales6 = new ArrayList<>(Arrays.asList("Cobre"));
         ArrayList<String> materiales7 = new ArrayList<>(Arrays.asList("Cuero"));
-        Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequena", "Comun", materiales2);
-        Arma espadon = new Arma(3, 1, 2, "Espadon", "Raro", materiales1);
-        Arma sable = new Arma(3, 1, 2, "Sable", "Raro", materiales3);
-        Arma bayoneta = new Arma(1, 1, 1, "Bayoneta", "Comun", materiales4);
+        Arma espadaPequeña = new Arma(1, 0, 1, "Espada pequena", "Comun", materiales2);
+        Arma espadon = new Arma(2, 1, 2, "Espadon", "Raro", materiales1);
+        Arma sable = new Arma(4, 2, 2, "Sable", "Raro", materiales3);
+        Arma bayoneta = new Arma(3, 1, 1, "Bayoneta", "Comun", materiales4);
         Arma guantesMagicos = new Arma(3, 1, 2, "Guantes Magicos", "Epico", materiales7);
-        Arma varitaMagica = new Arma(2, 1, 2, "Varita Magica", "Legendario", materiales3);
+        Arma varitaMagica = new Arma(1, 1, 2, "Varita Magica", "Legendario", materiales3);
         Arma hacha = new Arma(2, 1, 1, "Hacha exaltante", "Epico", materiales5);
-        Arma excalibur = new Arma(1, 1, 1, "Espada Excalibur", "Legendario", materiales3);
-        Arma tridente = new Arma(3,2,1,"Tridente","Epico",materiales6);
-
+        Arma excalibur = new Arma(5, 4, 1, "Espada Excalibur", "Legendario", materiales3);
+        Arma tridente = new Arma(2,2,1,"Tridente","Epico",materiales6);
+ 
         //armas defensivas
-        Arma escudoPequeño = new Arma(1, 2, 1, "Escudo Pequeño", "Comun", materiales1);
+        Arma escudoPequeño = new Arma(0, 2, 1, "Escudo Pequeño", "Comun", materiales1);
         Arma escudoGrande = new Arma(1, 3, 1, "Escudo Grande", "Raro", materiales1);
-        Arma escudoPuas = new Arma(1, 1, 1, "Escudo de Puas  , (protege e  intimida.)", "Epico", materiales5);
+        Arma escudoPuas = new Arma(2, 4, 1, "Escudo de Puas  , (protege e  intimida.)", "Epico", materiales5);
 
         conjuntoArmas = new ArrayList<>(Arrays.asList(espadaPequeña, espadon, sable, bayoneta, guantesMagicos, varitaMagica, hacha, excalibur, tridente, escudoPequeño, escudoGrande, escudoPuas));
 
