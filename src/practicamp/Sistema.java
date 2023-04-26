@@ -400,9 +400,6 @@ public class Sistema  implements Serializable {
             case 5:
                 mostrarNotificaciones();
                 break;
-            /*case 5 :
-                mostrarRankingOrdenado();
-                break;*/
             case 6:
                 salir(sc);
                 break;
@@ -413,13 +410,6 @@ public class Sistema  implements Serializable {
             menuPrincipal(sc);
         }
     }
-    /* public  void mostrarRankingOrdenado(){
-         
-          System.out.println("Personaje: " + p.getNombre() + " => "+ p.getPuntos() + " puntos");
-          Collections.sort(rankings);
-          
-      }*/
-    
     public void mostrarNotificaciones() {
         ((Jugador) usuario).mostrarNotificaciones();
         ((Jugador) usuario).vaciarListaNotificaciones();
