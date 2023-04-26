@@ -9,6 +9,7 @@ package practicamp;
  * @author alfer
  */
  import java.io.*;
+import static java.lang.System.exit;
 import java.net.PortUnreachableException;
 import java.util.*;
 //import java.util.Collections;
@@ -36,8 +37,10 @@ public class Sistema  implements Serializable {
     }
     public void rechazarDesafío(Scanner sc, Desafío desafío){
         int opción;
+        System.out.println("");
         System.out.println("¿Quieres rechazar el desafio");
         System.out.println("Pulse 0 si quiere rechazarlo, o 1 en caso contrario");
+        System.out.println("");
         opción = sc.nextInt();
         switch(opción){
             case 0: 
@@ -112,6 +115,7 @@ public class Sistema  implements Serializable {
     }
     public void resultadoDesafío(Desafío desafío,Usuario usuario, int cantidadOro, int cantidadOroDesafiante){
         if ((desafío.getModAtaques() > ((Jugador) usuario).getPersonaje().getAtaque()) && (desafío.getModDefensa() > ((Jugador) usuario).getPersonaje().getDefensa())){
+                System.out.println("");
                 System.out.println("El usuario desafiante" + desafío.getUsuarioDesafiante().getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante + desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - desafío.getPrecio());
@@ -122,6 +126,7 @@ public class Sistema  implements Serializable {
                // rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
                 //rankings.add(((Jugador) usuario)); 
             }else if ((desafío.getModAtaques() < ((Jugador) usuario).getPersonaje().getAtaque()) && (desafío.getModDefensa() < ((Jugador) usuario).getPersonaje().getDefensa())){
+                System.out.println("");
                 System.out.println("El usuario desafiado " + usuario.getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante - desafío.getPrecio());
                 ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro + desafío.getPrecio());
@@ -133,6 +138,10 @@ public class Sistema  implements Serializable {
                 //rankings.add(((Jugador) usuario));
             }else
                 System.out.println("Se ha producido un empate");
+                int puntosUsuarioDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getPuntos();
+                ((Jugador)desafío.getUsuarioDesafiante()).getPersonaje().setPuntos(puntosUsuarioDesafiante + 1);
+                int puntosUsuarioDesafiado = ((Jugador) usuario).getPersonaje().getPuntos();
+                ((Jugador)usuario).getPersonaje().setPuntos(puntosUsuarioDesafiado + 1);
                 //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
                 //rankings.add(((Jugador) usuario));    
     }
@@ -158,9 +167,10 @@ public class Sistema  implements Serializable {
         }
     }
     public void consultarRanking(Scanner sc){
-        System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " tiene " + ((Jugador)usuario).getPersonaje().getPuntos() + " puntos" );
+        System.out.println("El usuario " + usuario.getNick() + " con el personaje " + ((Jugador)usuario).getPersonaje().getNombre() + " tiene " + ((Jugador)usuario).getPersonaje().getPuntos() + " puntos" );
     }
-    public void consultarOro(Scanner sc){
+    public void consultarOro(Scanner sc) throws IOException{
+        System.out.println("");
         System.out.println("Bienvenido al menu de consultar oro");
         System.out.println("1. Consultar oro ganado");
         System.out.println("2. Consultar oro perdido");
@@ -171,21 +181,27 @@ public class Sistema  implements Serializable {
             opcion = sc.nextInt();
             System.out.println("");
         }while(opcion >=2 && opcion<=0);
-        switch(opcion){
+        switch (opcion) {
             case 1:
-                System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha ganado: " + ((Jugador)usuario).getPersonaje().getOroGanado() + " cantidad de oro en los desafios");
+                System.out.println("El usuario " + usuario.getNick() + " con el personaje " + ((Jugador)usuario).getPersonaje().getNombre() + " ha ganado: " + ((Jugador)usuario).getPersonaje().getOroGanado() + " cantidad de oro en los desafios");
+                System.out.println("Volviendo al menu principal...");
+                menuJugador(sc);
                 break;
             case 2:
-                System.out.println("El personaje: " + ((Jugador)usuario).getPersonaje().getNombre() + " ha perdido: " + ((Jugador)usuario).getPersonaje().getOroPerdido() + "cantidad de oro en los desafios");
+                System.out.println("El usuario " + usuario.getNick() + " con el personaje " + ((Jugador)usuario).getPersonaje().getNombre() + " ha perdido: " + ((Jugador)usuario).getPersonaje().getOroPerdido() + " cantidad de oro en los desafios");
+                 System.out.println("Volviendo al menu principal...");
+                 menuJugador(sc);
                 break;
             case 3:
                 System.out.println("Volviendo");
+                menuJugador(sc);
                 break;
         }
     }
     public void menuInicio(Scanner sc) throws IOException {
         int opcionmenú;
-        System.out.println("   Bienvenido al Menu de Inicio   ");
+        System.out.println("");
+        System.out.println("Bienvenido al Menu de Inicio   ");
         System.out.println("Seleccione una opcion      ");
         System.out.println("1 - Registrarse                   ");
         System.out.println("2 - Iniciar sesion                ");
@@ -209,16 +225,18 @@ public class Sistema  implements Serializable {
             case 3:
                 System.out.println("Saliendo...");
                 //3
-                break;
+                exit(0);
         }
        
     }
 
     private void registrarCuenta(Scanner sc) throws IOException {
+        System.out.println("");
         System.out.println("Como quieres registrarte:");
         System.out.println("1. Jugador");
         System.out.println("2. Operador");
         System.out.println("3. Volver al menu de inicio");
+        System.out.println("");
         int opcion;
         do {
             opcion = sc.nextInt();
@@ -313,6 +331,7 @@ public class Sistema  implements Serializable {
 
     private void menuOperador(Scanner sc) throws IOException {
         int opcionMenúOP;
+        System.out.println("");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Validar desafios");
@@ -345,6 +364,7 @@ public class Sistema  implements Serializable {
 
     private void menuJugador(Scanner sc) throws IOException {
         int opcionMenúJ;
+        System.out.println("");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Gestion avanzada de personaje");
@@ -407,6 +427,7 @@ public class Sistema  implements Serializable {
 
     private void menuAvanzadoPersonaje(Scanner sc) throws IOException {
         int opcionMenuP2;
+        System.out.println("");
         System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Modificar equipo");
@@ -435,6 +456,7 @@ public class Sistema  implements Serializable {
 
     private void menuDesafio(Scanner sc) {
         int opcionMenúD = -1;
+        System.out.println("");
         System.out.println("Bienvenido al menu de desafios " + usuario.getNick());
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("1. Desafiar ");
@@ -653,7 +675,7 @@ public class Sistema  implements Serializable {
                 System.out.println("Inicio de sesion erroneo vuelva a intentarlo");
                 System.out.println();
                 menuInicio(sc);
-            } else {
+            } else if (encontrarBaneado(nick)){
                 System.out.println("Su usuario esta baneado");
                 System.out.println();
                 menuInicio(sc);
@@ -685,6 +707,7 @@ public class Sistema  implements Serializable {
         System.out.println("2. Eliminar Equipo");
         System.out.println("3. Elegir Armas Activas");
         System.out.println("4. Volver al menu principal");
+        System.out.println("");
         int opcion;
         do {
             opcion = sc.nextInt();
@@ -971,6 +994,7 @@ public class Sistema  implements Serializable {
 
     public void menuUsuario(Scanner sc){
         int opcionMU;
+        System.out.println("");
         System.out.println("Bienvenido al menu de gestion de usuarios " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Banear usuario");
@@ -1013,6 +1037,9 @@ public class Sistema  implements Serializable {
 
             Usuario user = usuariosAceptados.get(opcion);
             usuariosAceptados.remove(user);
+            System.out.println("");
+            System.out.println("El usuario " + user.getNick() + " ha sido baneado!");
+            System.out.println("");
             usuariosBaneados.add(user);
         } else {
             System.out.println("No hay jugadores para banear");
@@ -1035,6 +1062,9 @@ public class Sistema  implements Serializable {
 
             Usuario user = usuariosBaneados.get(opcion);
             usuariosBaneados.remove(user);
+            System.out.println("");
+            System.out.println("El usuario " + user.getNick() + " ha sido desbaneado!");
+            System.out.println("");
             usuariosAceptados.add(user);
         } else {
             System.out.println("No hay jugadores baneados");
