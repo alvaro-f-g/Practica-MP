@@ -409,7 +409,7 @@ public class Sistema  implements Serializable {
         if (opcionMenúJ != 5 && opcionMenúJ != 3){
             menuPrincipal(sc);
         }
-    }
+    } 
     public void mostrarNotificaciones() {
         ((Jugador) usuario).mostrarNotificaciones();
         ((Jugador) usuario).vaciarListaNotificaciones();
