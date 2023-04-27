@@ -114,7 +114,7 @@ public class Sistema  implements Serializable {
         }
     }
     public void resultadoDesafío(Desafío desafío,Usuario usuario, int cantidadOro, int cantidadOroDesafiante){
-        if ((desafío.getModAtaques() > ((Jugador) usuario).getPersonaje().getAtaque()) && (desafío.getModDefensa() > ((Jugador) usuario).getPersonaje().getDefensa())){
+        if ((((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getAtaque() > ((Jugador) usuario).getPersonaje().getAtaque()) && (((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getDefensa() > ((Jugador) usuario).getPersonaje().getDefensa())){
                 System.out.println("");
                 System.out.println("El usuario desafiante" + desafío.getUsuarioDesafiante().getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante + desafío.getPrecio());
@@ -123,9 +123,9 @@ public class Sistema  implements Serializable {
                 ((Jugador) usuario).getPersonaje().setOroPerdido(((Jugador) usuario).getPersonaje().getOroPerdido() + desafío.getPrecio());
                 int puntosUsuarioDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getPuntos();
                 ((Jugador)desafío.getUsuarioDesafiante()).getPersonaje().setPuntos(puntosUsuarioDesafiante + 3);
-               // rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                //rankings.add(((Jugador) usuario)); 
-            }else if ((desafío.getModAtaques() < ((Jugador) usuario).getPersonaje().getAtaque()) && (desafío.getModDefensa() < ((Jugador) usuario).getPersonaje().getDefensa())){
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setVictorias(((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getVictorias() + 1);
+                ((Jugador)usuario).getPersonaje().setDerrotas((((Jugador)usuario).getPersonaje().getDerrotas() + 1));
+            }else if ((((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getAtaque() < ((Jugador) usuario).getPersonaje().getAtaque()) && (((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getDefensa() < ((Jugador) usuario).getPersonaje().getDefensa())){
                 System.out.println("");
                 System.out.println("El usuario desafiado " + usuario.getNick() +" ha ganado el desafio");
                 ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setCantidadOro(cantidadOroDesafiante - desafío.getPrecio());
@@ -134,16 +134,19 @@ public class Sistema  implements Serializable {
                 ((Jugador) usuario).getPersonaje().setOroGanado(((Jugador)usuario).getPersonaje().getOroGanado() + desafío.getPrecio());
                 int puntosUsuarioDesafiado = ((Jugador) usuario).getPersonaje().getPuntos();
                 ((Jugador)usuario).getPersonaje().setPuntos(puntosUsuarioDesafiado + 3);
-                //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                //rankings.add(((Jugador) usuario));
-            }else
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setDerrotas(((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getDerrotas() + 1);
+                ((Jugador)usuario).getPersonaje().setVictorias((((Jugador)usuario).getPersonaje().getVictorias() + 1));
+            }else{
                 System.out.println("Se ha producido un empate");
                 int puntosUsuarioDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getPuntos();
                 ((Jugador)desafío.getUsuarioDesafiante()).getPersonaje().setPuntos(puntosUsuarioDesafiante + 1);
                 int puntosUsuarioDesafiado = ((Jugador) usuario).getPersonaje().getPuntos();
                 ((Jugador)usuario).getPersonaje().setPuntos(puntosUsuarioDesafiado + 1);
-                //rankings.add(((Jugador) desafío.getUsuarioDesafiante()));
-                //rankings.add(((Jugador) usuario));    
+                int empatesDesafiante = ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().getEmpates();
+                ((Jugador) desafío.getUsuarioDesafiante()).getPersonaje().setEmpates(empatesDesafiante + 1);
+                int empatesDesafiado = ((Jugador)usuario).getPersonaje().getEmpates();
+                ((Jugador)usuario).getPersonaje().setEmpates((empatesDesafiado + 1));   
+            }
     }
     private boolean comprarDesafío(Desafío desafío) {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
@@ -167,7 +170,12 @@ public class Sistema  implements Serializable {
         }
     }
     public void consultarRanking(Scanner sc){
-        System.out.println("El usuario " + usuario.getNick() + " con el personaje " + ((Jugador)usuario).getPersonaje().getNombre() + " tiene " + ((Jugador)usuario).getPersonaje().getPuntos() + " puntos" );
+        System.out.println("El usuario " + usuario.getNick() + " con el personaje " + ((Jugador)usuario).getPersonaje().getNombre() + " tiene: " );
+        System.out.println("Puntos: " + ((Jugador)usuario).getPersonaje().getPuntos());
+        System.out.println("Victorias: " + ((Jugador)usuario).getPersonaje().getVictorias());
+        System.out.println("Empates: " + ((Jugador)usuario).getPersonaje().getEmpates());
+        System.out.println("Derrotas: " + ((Jugador)usuario).getPersonaje().getDerrotas());
+        
     }
     public void consultarOro(Scanner sc) throws IOException{
         System.out.println("");
@@ -550,9 +558,12 @@ public class Sistema  implements Serializable {
         ArrayList<Arma> armasActivas = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
         int puntos = 0;
+        int victorias = 0;
+        int empates = 0;
+        int derrotas = 0;
         int oroGanado = 0;
         int oroPerdido = 0;
-        p = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro, puntos, oroGanado, oroPerdido) {
+        p = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro, puntos, victorias, empates, derrotas, oroGanado, oroPerdido) {
             @Override
             public void añadirEsbirro(Esbirro esbirro) {
             }
@@ -627,15 +638,15 @@ public class Sistema  implements Serializable {
         switch (opcionRol) {
             case 1:
                 CrearCazador cazador = new CrearCazador();
-                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos() , p.getOroGanado(), p.getOroPerdido() , sc);
+                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos() , p.getVictorias(), p.getEmpates(), p.getDerrotas(), p.getOroGanado(), p.getOroPerdido() , sc);
                 break;
             case 2:
                 CrearVampiro vampiro = new CrearVampiro();
-                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), p.getOroGanado(), p.getOroPerdido(), sc);
+                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), p.getVictorias(), p.getEmpates(), p.getDerrotas(), p.getOroGanado(), p.getOroPerdido(), sc);
                 break;
             case 3:
                 CrearLicantropo licantropo = new CrearLicantropo();
-                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), p.getOroGanado(), p.getOroPerdido(), sc);
+                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), p.getPuntos(), p.getVictorias(), p.getEmpates(), p.getDerrotas(), p.getOroGanado(), p.getOroPerdido(), sc);
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");

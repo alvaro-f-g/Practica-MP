@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class CrearVampiro extends Creator implements Serializable {
 
     @Override
-    public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntos, int oroGanado, int oroPerdido, Scanner sc) {
+    public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntos, int victorias, int empates, int derrotas, int oroGanado, int oroPerdido, Scanner sc) {
         //Scanner sc = new Scanner(System.in);
         int puntosSangre;
         int edad;
@@ -43,7 +43,7 @@ public class CrearVampiro extends Creator implements Serializable {
                 edad = sc.nextInt();
             }
         } while (error);
-        Vampiro v = new Vampiro(nombre,listaArmas,armasActivas,listaArmaduras,listaEsbirros,cantidadOro,puntos,oroGanado, oroPerdido,puntosSangre,edad);
+        Vampiro v = new Vampiro(nombre,listaArmas,armasActivas,listaArmaduras,listaEsbirros,cantidadOro,puntos, victorias, empates, derrotas, oroGanado, oroPerdido,puntosSangre,edad);
         return v;
     }
 }

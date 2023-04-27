@@ -18,8 +18,8 @@ public class Vampiro extends Personaje implements Serializable {
     private int puntosSangre;
     private int edad;
 
-    public Vampiro(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro,int puntos, int oroGanado, int oroPerdido,  int puntosSangre, int edad) {
-        super(nombre, listaArmas, armasActivas, listaArmaduras, listaEsbirros, cantidadOro, puntos, oroGanado, oroPerdido);
+    public Vampiro(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro,int puntos, int victorias, int empates, int derrotas, int oroGanado, int oroPerdido,  int puntosSangre, int edad) {
+        super(nombre, listaArmas, armasActivas, listaArmaduras, listaEsbirros, cantidadOro, puntos, victorias, empates, derrotas, oroGanado, oroPerdido);
         this.puntosSangre = puntosSangre;
         this.edad = edad;
     }
