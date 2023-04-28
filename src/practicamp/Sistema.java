@@ -1092,7 +1092,7 @@ public class Sistema  implements Serializable {
         String nick;
         while (opcion < 2 ) {
             do{
-            System.out.println("Introduzca el usuario a quien quiere desafíar o escriba SALIR para volver ");
+            System.out.println("Introduzca el usuario a quien quiere desafíar");
             nick = sc.next();
             }while (!encontrarNick(nick))  ;
             if (encontrarNick(nick)){
